@@ -1,0 +1,54 @@
+﻿@page "/"
+@using System.Device.Gpio
+
+<PageTitle>Home</PageTitle>
+
+<h1>GPIO Test</h1>
+
+<h4 class="mb-5">State @(IsOn ? "On" : "Off")</h4>
+
+<button class="btn btn-success" @onclick="TurnOnLed">Turn LED ON</button>
+<button class="btn btn-danger" @onclick="TurnOffLed">Turn LED OFF</button>
+
+@code{
+    bool IsOn { get; set; }
+    GpioController? GpioController { get; set; } 
+    int LedPin { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        LedPin = 17; // GPIO pin for the LED
+        try
+        {
+            using var controller = new GpioController();
+            controller.OpenPin(LedPin, PinMode.Output);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
+        return base.OnInitializedAsync();
+    }
+
+    private void TurnOnLed(MouseEventArgs obj)
+    {
+        // Button is pressed
+        IsOn = true;
+        Console.WriteLine("Button pressed - Turning LED ON");
+        GpioController?.Write(LedPin, PinValue.High); // Turn LED on
+        
+        StateHasChanged();
+    }
+
+    private void TurnOffLed(MouseEventArgs obj)
+    {
+        // Button is released
+        IsOn = false;
+        Console.WriteLine("Button released - Turning LED OFF");
+        GpioController?.Write(LedPin, PinValue.Low); // Turn LED off
+        
+        StateHasChanged();
+    }
+
+}

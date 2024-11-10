@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThyCleanVendoPoc", "ThyCleanVendoPoc\ThyCleanVendoPoc.csproj", "{AFB03811-A4FD-4711-BF96-7797960032F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1", "BlazorApp1\BlazorApp1.csproj", "{77FD2BAB-A857-4582-9EF2-31B7435A65CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{AFB03811-A4FD-4711-BF96-7797960032F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFB03811-A4FD-4711-BF96-7797960032F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFB03811-A4FD-4711-BF96-7797960032F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77FD2BAB-A857-4582-9EF2-31B7435A65CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77FD2BAB-A857-4582-9EF2-31B7435A65CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77FD2BAB-A857-4582-9EF2-31B7435A65CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77FD2BAB-A857-4582-9EF2-31B7435A65CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
