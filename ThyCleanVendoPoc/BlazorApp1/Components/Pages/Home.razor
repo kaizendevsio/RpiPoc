@@ -20,8 +20,8 @@
         LedPin = 17; // GPIO pin for the LED
         try
         {
-            using var controller = new GpioController();
-            controller.OpenPin(LedPin, PinMode.Output);
+            GpioController = new GpioController();
+            GpioController.OpenPin(LedPin, PinMode.Output);
         }
         catch (Exception e)
         {
