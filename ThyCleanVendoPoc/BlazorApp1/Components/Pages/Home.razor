@@ -4,25 +4,56 @@
 <PageTitle>Home</PageTitle>
 
 <h1>GPIO Test</h1>
+<div class="d-flex flex-column gap-3">
+    <button class="@GetButtonColor(YellowLedPin)"
+            style="height: 150px; width: 150px"
+            @onmousedown="() => TurnOnLed(YellowLedPin)"
+            @onmouseup="() => TurnOffLed(YellowLedPin)"
+            @ontouchstart="() => TurnOnLed(YellowLedPin)"
+            @ontouchend="() => TurnOffLed(YellowLedPin)">
+        @GetButtonText(YellowLedPin)
+    </button>
 
-<h4 class="mb-5">State @(IsOn ? "On" : "Off")</h4>
+    <button class="@GetButtonColor(BlueLedPin)"
+            style="height: 150px; width: 150px"
+            @onmousedown="() => TurnOnLed(BlueLedPin)"
+            @onmouseup="() => TurnOffLed(BlueLedPin)"
+            @ontouchstart="() => TurnOnLed(BlueLedPin)"
+            @ontouchend="() => TurnOffLed(BlueLedPin)">
+        @GetButtonText(BlueLedPin)
+    </button>
 
-<button class="btn btn-primary" @onmousedown="TurnOnLed" @onmouseup="TurnOffLed" @ontouchstart="TurnOnLed" @ontouchend="TurnOffLed">
-    Hold to Turn LED ON
-</button>
+    <button class="@GetButtonColor(GreenLedPin)"
+            style="height: 150px; width: 150px"
+            @onmousedown="() => TurnOnLed(GreenLedPin)"
+            @onmouseup="() => TurnOffLed(GreenLedPin)"
+            @ontouchstart="() => TurnOnLed(GreenLedPin)"
+            @ontouchend="() => TurnOffLed(GreenLedPin)">
+        @GetButtonText(GreenLedPin)
+    </button>
+</div>
+
 
 @code {
-    bool IsOn { get; set; }
-    GpioController? GpioController { get; set; } 
-    int LedPin { get; set; }
+    GpioController? GpioController { get; set; }
+    int YellowLedPin { get; set; }
+    int BlueLedPin { get; set; }
+    int GreenLedPin { get; set; }
+    bool IsYellowLedOn { get; set; }
+    bool IsBlueLedOn { get; set; }
+    bool IsGreenLedOn { get; set; }
 
     protected override Task OnInitializedAsync()
     {
-        LedPin = 17; // GPIO pin for the LED
+        YellowLedPin = 17; // GPIO pin for the LED
+        BlueLedPin = 24; // GPIO pin for the blue LED
+        GreenLedPin = 26; // GPIO pin for the green LED
         try
         {
             GpioController = new GpioController();
-            GpioController.OpenPin(LedPin, PinMode.Output);
+            GpioController.OpenPin(YellowLedPin, PinMode.Output);
+            GpioController.OpenPin(BlueLedPin, PinMode.Output);
+            GpioController.OpenPin(GreenLedPin, PinMode.Output);
         }
         catch (Exception e)
         {
@@ -32,19 +63,124 @@
         return base.OnInitializedAsync();
     }
 
-    private void TurnOnLed()
+    private void TurnOnLed(int ledPin)
     {
-        IsOn = true;
+        if (ledPin == YellowLedPin)
+        {
+            IsYellowLedOn = true;
+        }
+        else if (ledPin == GreenLedPin)
+        {
+            IsGreenLedOn = true;
+        }
+        else if (ledPin == BlueLedPin)
+        {
+            IsBlueLedOn = true;
+        }
+
         Console.WriteLine("Button pressed - Turning LED ON");
-        GpioController?.Write(LedPin, PinValue.High); // Turn LED on
+        GpioController?.Write(ledPin, PinValue.High); // Turn LED on
         StateHasChanged();
     }
 
-    private void TurnOffLed()
+    private void TurnOffLed(int ledPin)
     {
-        IsOn = false;
+        if (ledPin == YellowLedPin)
+        {
+            IsYellowLedOn = false;
+        }
+        else if (ledPin == GreenLedPin)
+        {
+            IsGreenLedOn = false;
+        }
+        else if (ledPin == BlueLedPin)
+        {
+            IsBlueLedOn = false;
+        }
+
         Console.WriteLine("Button released - Turning LED OFF");
-        GpioController?.Write(LedPin, PinValue.Low); // Turn LED off
+        GpioController?.Write(ledPin, PinValue.Low); // Turn LED off
         StateHasChanged();
     }
+
+    private string GetButtonColor(int ledPin)
+    {
+        var buttonColor = "border-0 outline-0 btn rounded rounded-circle p-2 ";
+        if (ledPin == YellowLedPin)
+        {
+            if (IsYellowLedOn)
+            {
+                buttonColor += "btn-warning";
+            }
+            else
+            {
+                buttonColor += "btn-secondary";
+            }
+        }
+        else if (ledPin == GreenLedPin)
+        {
+            if (IsGreenLedOn)
+            {
+                buttonColor += "btn-success";
+            }
+            else
+            {
+                buttonColor += "btn-secondary";
+            }
+        }
+        else if (ledPin == BlueLedPin)
+        {
+            if (IsBlueLedOn)
+            {
+                buttonColor += "btn-primary";
+            }
+            else
+            {
+                buttonColor += "btn-secondary";
+            }
+        }
+
+        return buttonColor;
+    }
+
+    private string GetButtonText(int ledPin)
+    {
+        var buttonText = string.Empty;
+        if (ledPin == YellowLedPin)
+        {
+            if (IsYellowLedOn)
+            {
+                buttonText += "ON";
+            }
+            else
+            {
+                buttonText += "YELLOW";
+            }
+        }
+        else if (ledPin == GreenLedPin)
+        {
+            if (IsGreenLedOn)
+            {
+                buttonText += "ON";
+            }
+            else
+            {
+                buttonText += "GREEN";
+            }
+        }
+        else if (ledPin == BlueLedPin)
+        {
+            if (IsBlueLedOn)
+            {
+                buttonText += "ON";
+            }
+            else
+            {
+                buttonText += "BLUE";
+            }
+        }
+
+        return buttonText;
+    }
+
 }
