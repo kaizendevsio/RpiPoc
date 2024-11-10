@@ -5,7 +5,7 @@ using System.Device.Gpio;
 Console.WriteLine("Starting Button LED Control Program");
 
 var ledPin = 17; // GPIO pin for the LED
-var buttonPin = 27; // GPIO pin for the button
+var buttonPin = 26; // GPIO pin for the button
 using var controller = new GpioController();
 controller.OpenPin(ledPin, PinMode.Output);
 controller.OpenPin(buttonPin, PinMode.InputPullUp); // Enable internal pull-up resistor
