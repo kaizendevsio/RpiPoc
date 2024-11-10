@@ -7,10 +7,11 @@
 
 <h4 class="mb-5">State @(IsOn ? "On" : "Off")</h4>
 
-<button class="btn btn-success" @onclick="TurnOnLed">Turn LED ON</button>
-<button class="btn btn-danger" @onclick="TurnOffLed">Turn LED OFF</button>
+<button class="btn btn-primary" @onmousedown="TurnOnLed" @onmouseup="TurnOffLed" @ontouchstart="TurnOnLed" @ontouchend="TurnOffLed">
+    Hold to Turn LED ON
+</button>
 
-@code{
+@code {
     bool IsOn { get; set; }
     GpioController? GpioController { get; set; } 
     int LedPin { get; set; }
@@ -31,24 +32,19 @@
         return base.OnInitializedAsync();
     }
 
-    private void TurnOnLed(MouseEventArgs obj)
+    private void TurnOnLed()
     {
-        // Button is pressed
         IsOn = true;
         Console.WriteLine("Button pressed - Turning LED ON");
         GpioController?.Write(LedPin, PinValue.High); // Turn LED on
-        
         StateHasChanged();
     }
 
-    private void TurnOffLed(MouseEventArgs obj)
+    private void TurnOffLed()
     {
-        // Button is released
         IsOn = false;
         Console.WriteLine("Button released - Turning LED OFF");
         GpioController?.Write(LedPin, PinValue.Low); // Turn LED off
-        
         StateHasChanged();
     }
-
 }
